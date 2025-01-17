@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./fullstack-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/spring_fullstack?useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Deepak@123
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./fullstack-front
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: Deepak@123
+      MYSQL_DATABASE: spring_fullstack # This will automatically create the database
+    ports:
+      - "3306:3306"

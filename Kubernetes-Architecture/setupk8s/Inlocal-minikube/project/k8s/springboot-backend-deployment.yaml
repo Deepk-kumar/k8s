@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot-backend
+  template:
+    metadata:
+      labels:
+        app: springboot-backend
+    spec:
+      containers:
+      - name: springboot-backend
+        image: deeppaakk/springboot-react-mysql_backend:latest
+        env:
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "root"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "Deepak@123"
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://mysql-service:3306/spring_fullstack"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot-backend-service
+spec:
+  selector:
+    app: springboot-backend
+  ports:
+    - port: 8080
+  type: ClusterIP
